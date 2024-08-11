@@ -6,11 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:30:47 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/08 15:01:41 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/11 13:43:09 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_pwd(void)
 {

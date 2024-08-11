@@ -12,7 +12,7 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 OBJS =$(SRC:.c=.o)
 AR =ar rc
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -c
+CFLAGS = -Wall -Wextra -Werror -c -fPIC
 RM = rm -rf
 
 ${NAME}: $(OBJS)

@@ -1,21 +1,32 @@
-NAME= minishell
-LIBFT_DIR= libft
-LIBFT_NAME= $(addprefix $(LIBFT_DIR)/,libft.a)
-SRC= main.c pwd.c
-OBJ= $(SRC:.c=.o)
-FLAGS= -Wall -Wextra -Werror
-RFLAGS= -lreadline
-RM= rm -rf
-CC= gcc
 
+NAME = minishell
+LIBFT_DIR = libft
+LIBFT_NAME = $(addprefix $(LIBFT_DIR)/, libft.a)
+BI_DIR = built_in
+SRC = main.c
+BI_SRC = cd.c pwd.c
+
+OBJ = $(SRC:.c=.o)
+BI_OBJ = $(addprefix $(BI_DIR)/, $(BI_SRC:.c=.o))
+
+FLAGS = -Wall -Wextra -Werror
+RFLAGS = -lreadline
+RM = rm -rf
+CC = gcc
+
+# Targets
 all: $(LIBFT_NAME) $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT_NAME)
+$(NAME): $(OBJ) $(BI_OBJ) $(LIBFT_NAME) 
 	@echo "Linking $(NAME)"
-	@$(CC) $(FLAGS) $(OBJ) $(LIBFT_NAME) -o $@ $(RFLAGS)
+	@$(CC) $(FLAGS) $(OBJ) $(BI_OBJ) $(LIBFT_NAME) -o $@ $(RFLAGS)
 
 %.o: %.c
-	@echo "Compiling source files"
+	@echo "Compiling $<"
+	@$(CC) $(FLAGS) -c $< -o $@
+
+$(BI_DIR)/%.o: $(BI_DIR)/%.c
+	@echo "Compiling $< from $(BI_DIR)"
 	@$(CC) $(FLAGS) -c $< -o $@
 
 $(LIBFT_NAME):
@@ -25,15 +36,14 @@ $(LIBFT_NAME):
 clean:
 	@echo "Cleaning up object files"
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	@$(RM) $(OBJ)
+	@$(RM) $(OBJ) $(BI_OBJ)
 
 fclean: clean
 	@echo "Removing $(NAME) and libft"
 	@$(RM) $(LIBFT_NAME)
-	@$(RM) $(NAME) $(OBJ)
+	@$(RM) $(NAME)
 
-re: fclean
-	@$(MAKE)
+re: fclean all
 
-.PHONY: all re clean fclean make
+.PHONY: all re clean fclean
 .SILENT: all

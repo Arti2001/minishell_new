@@ -6,18 +6,18 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/08 14:57:51 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/11 15:02:18 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_built_in(char *command)
+void	check_built_in(char *command, t_env my_env)
 {
 		if (ft_strncmp(command, "pwd", 4) == 0)
 			ft_pwd();
-		//if (ft_strncmp(command, "cd", 3))
-		//	//todo
+		if (ft_strncmp(command, "cd", 3))
+			ft_cd(NULL, "/usr/bin/", my_env);
 		//if (ft_strncmp(command, "echo", 5))
 		//	//todo
 		//if (ft_strncmp(command, "export", 7))
@@ -30,20 +30,25 @@ void	check_built_in(char *command)
 		//	//todo;
 }
 
-int main()
+int main(int argc, char *argv[], char *envp[])
 {
 	char *command;
+	t_env	my_env;
 
-	while (1)
+
+	if (argc == 1  && argv[0])
 	{
-		command = readline("Minishell>");
-		if (command == NULL)
-			break;
-		add_history(command);
-		check_built_in(command);
-		
+		my_env.cp_env = envp;
+		while (1)
+		{
+			command = readline("Minishell>");
+			if (command == NULL)
+				break;
+			add_history(command);
+			check_built_in(command, my_env);
+			
+		}
 	}
-
 	return (0);
 }
 
