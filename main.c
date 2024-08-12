@@ -6,18 +6,19 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/11 15:02:18 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/12 11:06:43 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_built_in(char *command, t_env my_env)
+void	check_built_in(t_pars *my_env)
 {
-		if (ft_strncmp(command, "pwd", 4) == 0)
+
+		if (ft_strncmp(my_env->command[0], "pwd", 3) == 0)
 			ft_pwd();
-		if (ft_strncmp(command, "cd", 3))
-			ft_cd(NULL, "/usr/bin/", my_env);
+		if (ft_strncmp(my_env->command[0], "cd", 2) == 0)
+			ft_cd(my_env);
 		//if (ft_strncmp(command, "echo", 5))
 		//	//todo
 		//if (ft_strncmp(command, "export", 7))
@@ -33,8 +34,8 @@ void	check_built_in(char *command, t_env my_env)
 int main(int argc, char *argv[], char *envp[])
 {
 	char *command;
-	t_env	my_env;
-
+	t_pars	my_env;
+	
 
 	if (argc == 1  && argv[0])
 	{
@@ -45,7 +46,8 @@ int main(int argc, char *argv[], char *envp[])
 			if (command == NULL)
 				break;
 			add_history(command);
-			check_built_in(command, my_env);
+			my_env.command = ft_split(command, ' ');
+			check_built_in(&my_env);
 			
 		}
 	}
