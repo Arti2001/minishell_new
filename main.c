@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/12 11:06:43 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/13 17:38:20 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,39 @@ void	check_built_in(t_pars *my_env)
 		//	//todo;
 }
 
+void 	set_env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while(envp[i])
+	{
+		ft_env_lstnew(envp[i]);
+		i++
+	}
+	
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	char *command;
-	t_pars	my_env;
+	//t_pars	my_env;
 	
-
+	
 	if (argc == 1  && argv[0])
 	{
-		my_env.cp_env = envp;
-		while (1)
-		{
-			command = readline("Minishell>");
-			if (command == NULL)
-				break;
-			add_history(command);
-			my_env.command = ft_split(command, ' ');
-			check_built_in(&my_env);
+		set_env(envp);
+		//my_env.cp_env = envp;
+		//while (1)
+		//{
+		//	command = readline("Minishell>");
+		//	if (command == NULL)
+		//		break;
+		//	add_history(command);
+		//	my_env.command = ft_split(command, ' ');
+		//	check_built_in(&my_env);
 			
-		}
+		//}
 	}
 	return (0);
 }

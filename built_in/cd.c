@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/12 11:35:19 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/13 13:40:01 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,22 @@ char *env_path(char *name, t_pars *my_env)
 	}
 	return (path);
 }
+//int	t_len(char **array)
+//{
+//	int i;
+
+//	i = 0;
+
+//	while(array[i])
+//	{
+//		i++;
+//	}
+//	return (i);
+//}
 void	ft_cd(t_pars *my_env)
 {
+	if (my_env->command[2] != NULL)
+		ft_putendl_fd("bash: cd: too many arguments", 2);
 	if (my_env->command[0][2] != '\0')
 	{
 		ft_putstr_fd("Command '", 2);
@@ -45,5 +59,10 @@ void	ft_cd(t_pars *my_env)
 	if (ft_strncmp(my_env->command[1], ".", 1) == 0)	
 		chdir(".");
 	if (ft_strncmp(my_env->command[1], "..", 2) == 0)
+	{
 		chdir("..");
+		return ;
+	}
+	if (access(my_env->command[1], F_OK) == 0)
+		chdir(my_env->command[1]);
 }
