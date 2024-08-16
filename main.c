@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/13 17:38:20 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/15 17:01:19 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,9 @@ void	check_built_in(t_pars *my_env)
 		//	//todo;
 }
 
-void 	set_env(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while(envp[i])
-	{
-		ft_env_lstnew(envp[i]);
-		i++
-	}
-	
-}
-
 int main(int argc, char *argv[], char *envp[])
 {
-	char *command;
+	//char *command;
 	//t_pars	my_env;
 	
 	
@@ -90,7 +77,7 @@ int main(int argc, char *argv[], char *envp[])
 //	dir = opendir("./new");//opens the directory passed as name.Returns the pointer to it.
 //	if (dir == NULL)
 //		return 1;
-//	struct dirent* entity;
+//	struct di= rent* entity;
 //	entity = readdir(dir);// entry to the directory. Contains all meta data about files in the directory 
 //	while(entity != NULL)
 //	{

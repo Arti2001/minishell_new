@@ -3,7 +3,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT_NAME = $(addprefix $(LIBFT_DIR)/, libft.a)
 BI_DIR = built_in
-SRC = main.c
+SRC = main.c set_env.c linked_list_tools.c
 BI_SRC = cd.c pwd.c
 
 OBJ = $(SRC:.c=.o)
