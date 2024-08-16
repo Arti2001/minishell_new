@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/15 17:38:05 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/16 15:44:31 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ll_addback(t_env **env_head, t_env *new_node)
 t_env	*ft_env_lstnew(char *content)
 {
 	t_env	*new_node;
-
+	
 	new_node = (t_env *)malloc(sizeof(t_env ));
 	if (new_node == NULL)
 		return (NULL);

@@ -6,19 +6,20 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/15 17:01:19 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/16 17:58:32 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_built_in(t_pars *my_env)
+void	check_built_in(t_env *env)
 {
-
-		if (ft_strncmp(my_env->command[0], "pwd", 3) == 0)
+		t_pars	*pars;
+		
+		if (ft_strncmp(pars->commands[0], "pwd", 4) == 0)
 			ft_pwd();
-		if (ft_strncmp(my_env->command[0], "cd", 2) == 0)
-			ft_cd(my_env);
+		if (ft_strncmp(pars->commands[0], "cd", 3))
+			ft_cd(env);
 		//if (ft_strncmp(command, "echo", 5))
 		//	//todo
 		//if (ft_strncmp(command, "export", 7))
@@ -33,24 +34,26 @@ void	check_built_in(t_pars *my_env)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	//char *command;
-	//t_pars	my_env;
-	
-	
+	char		*input;
+	t_pars		pars;
+	t_env		*env;
+	int			i;
+
+	i = 0;
 	if (argc == 1  && argv[0])
 	{
-		set_env(envp);
-		//my_env.cp_env = envp;
-		//while (1)
-		//{
-		//	command = readline("Minishell>");
-		//	if (command == NULL)
-		//		break;
-		//	add_history(command);
-		//	my_env.command = ft_split(command, ' ');
-		//	check_built_in(&my_env);
-			
-		//}
+		env = set_env(envp);
+		while (1)
+		{
+			input = readline("Minishell>");
+			if (input == NULL)
+				break;
+			add_history(input);
+			pars.commands = ft_split(input, ' ');
+			if (argc == 3)
+				check_built_in(env);
+			i++;
+		}
 	}
 	return (0);
 }
