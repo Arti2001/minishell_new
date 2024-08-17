@@ -3,6 +3,7 @@
 		"minishell.h": "c",
 		"history.h": "c",
 		"readline.h": "c",
-		"__stddef_max_align_t.h": "c"
+		"__stddef_max_align_t.h": "c",
+		"dirent.h": "c"
 	}
 }

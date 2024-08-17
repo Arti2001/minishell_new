@@ -6,20 +6,19 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/16 17:58:32 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/17 17:31:07 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_built_in(t_env *env)
+void	check_built_in(t_env *env, char **commands)
 {
-		t_pars	*pars;
 		
-		if (ft_strncmp(pars->commands[0], "pwd", 4) == 0)
+		if (ft_strncmp(commands[0], "pwd", 3) == 0)
 			ft_pwd();
-		if (ft_strncmp(pars->commands[0], "cd", 3))
-			ft_cd(env);
+		if (ft_strncmp(commands[0], "cd", 2) == 0)
+			ft_cd(env, commands);
 		//if (ft_strncmp(command, "echo", 5))
 		//	//todo
 		//if (ft_strncmp(command, "export", 7))
@@ -37,9 +36,7 @@ int main(int argc, char *argv[], char *envp[])
 	char		*input;
 	t_pars		pars;
 	t_env		*env;
-	int			i;
 
-	i = 0;
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
@@ -47,12 +44,10 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			input = readline("Minishell>");
 			if (input == NULL)
-				break;
+				return 1;
 			add_history(input);
 			pars.commands = ft_split(input, ' ');
-			if (argc == 3)
-				check_built_in(env);
-			i++;
+			check_built_in(env, pars.commands);
 		}
 	}
 	return (0);

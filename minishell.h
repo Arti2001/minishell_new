@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/16 17:43:03 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/17 16:52:41 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <readline/readline.h>
+#include <sys/types.h>
 #include <readline/history.h>
 #include <dirent.h>
 
@@ -48,6 +49,7 @@ char	*get_value(char *content);
 /*Built_ins*/
 
 void	ft_pwd(void);
-void	ft_cd(t_env *env);
+void	ft_cd(t_env *env, char **commands);
+char	*get_path(char *name, t_env *env);
 
 #endif
