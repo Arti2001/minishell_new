@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/17 17:31:07 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/23 13:23:53 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	check_built_in(t_env *env, char **commands)
 {
 		
-		if (ft_strncmp(commands[0], "pwd", 3) == 0)
+		if (ft_strncmp(commands[0], "pwd", 4) == 0)
 			ft_pwd();
-		if (ft_strncmp(commands[0], "cd", 2) == 0)
+		if (ft_strncmp(commands[0], "cd", 3) == 0)
 			ft_cd(env, commands);
-		//if (ft_strncmp(command, "echo", 5))
-		//	//todo
-		//if (ft_strncmp(command, "export", 7))
-		//	//todo
+		if (ft_strncmp(commands[0], "env", 4) == 0)
+			ft_env(env);
+		if (ft_strncmp(commands[0], "echo", 4) == 0)
+			ft_echo(commands);
 		//if (ft_strncmp(command, "unset", 6))
 		//	//todo;
 		//if (ft_strncmp(command, "env", 4))
@@ -47,6 +47,7 @@ int main(int argc, char *argv[], char *envp[])
 				return 1;
 			add_history(input);
 			pars.commands = ft_split(input, ' ');
+			free(input);
 			check_built_in(env, pars.commands);
 		}
 	}

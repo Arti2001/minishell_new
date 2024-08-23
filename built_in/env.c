@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 15:30:47 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/21 20:18:50 by amysiv           ###   ########.fr       */
+/*   Created: 2024/08/21 18:19:28 by amysiv            #+#    #+#             */
+/*   Updated: 2024/08/21 18:34:31 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_pwd(void)
+void	ft_env(t_env *env)
 {
-	char *path;
-	
-	path = getcwd(NULL, 0);
-	if (path != NULL)
-		ft_putendl_fd(path, 1);
-	else
-		ft_putendl_fd("Error : getcwd()", 2);
+	while(env != NULL)
+	{
+		ft_putendl_fd(env->content, 1);
+		env = env->next;
+	}
 }

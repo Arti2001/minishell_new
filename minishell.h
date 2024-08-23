@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/17 16:52:41 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/23 14:29:54 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ t_env	*ll_last(t_env *last);
 
 t_env	*set_env(char **env);
 void	append_node(t_env **head_env, char *content);
+void	concat_new_val(t_env *node,char *new_val);
+void	ch_env_value(t_env *env, char *var_name);
 char 	*get_key(char *content);
 char	*get_value(char *content);
-
+int	check_new_line(char *str);
 
 
 /*Built_ins*/
@@ -51,5 +53,7 @@ char	*get_value(char *content);
 void	ft_pwd(void);
 void	ft_cd(t_env *env, char **commands);
 char	*get_path(char *name, t_env *env);
+void	ft_env(t_env *env);
+void	ft_echo(char**commands);
 
 #endif
