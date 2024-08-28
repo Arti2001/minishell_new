@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/16 15:44:31 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/28 10:54:29 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_env	*ft_env_lstnew(char *content)
 	if (new_node == NULL)
 		return (NULL);
 	new_node->content = content;
-	new_node->value= get_value(content);
 	new_node->name = get_key(content);
+	new_node->value= get_value(content);
 	new_node->next = NULL;
 	return (new_node);
 }

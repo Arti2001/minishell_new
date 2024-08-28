@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/23 13:09:25 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/28 14:58:59 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 char	*get_value(char *content)
 {
 	char *value;
-	
+	if (check_equel(content) == 0)
+		return (NULL);
 	value = ft_strchr(content, '=');
 	value = ft_strdup(++value);
 	if (value == NULL)
@@ -29,6 +30,10 @@ char *get_key(char *content)
 	char	*key;
 
 	i = 0;
+	if (content == NULL)
+		return (NULL);
+	if (content[i] == '=')
+		return (content);
 	while(content[i] != '\0')
 	{
 		if (content[i] == '=')
@@ -74,11 +79,11 @@ t_env	*set_env(char **env)
 	return (head_env);
 }
 
-void	ch_env_value(t_env *env, char *var_name)
+void	ch_env_value(t_env *env, char *var_name, char *new)
 {
 	char *path;
 	
-	path = getcwd(NULL, 0);
+	path = new;
 	while (env != NULL)
 	{
 		if (ft_strncmp(env->name, var_name, ft_strlen(var_name)) == 0)

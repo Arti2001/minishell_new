@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/22 15:12:29 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/28 11:42:25 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void ft_cd(t_env *env, char **commands)
 	dir = opendir(commands[1]);
 	if (access(commands[1], F_OK ) == 0 && (dir != NULL))
 	{
-		ch_env_value(env, "OLDPWD");
+		ch_env_value(env, "OLDPWD", getcwd(NULL, 0));
 		chdir(commands[1]);
-		ch_env_value(env, "PWD");
+		ch_env_value(env, "PWD", getcwd(NULL, 0));
 		return ;
 	}
 	if (access(commands[1], F_OK) == -1)

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/23 14:29:54 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/28 11:58:43 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,28 @@ typedef struct s_pars
 } t_pars;
 
 /*Linked list*/
+t_env	*ll_last(t_env *last);
 t_env	*ft_env_lstnew(char *content);
 void	ll_addback(t_env **env_head, t_env *new_node);
-t_env	*ll_last(t_env *last);
 
+int	check_equel(char *str);
 t_env	*set_env(char **env);
-void	append_node(t_env **head_env, char *content);
-void	concat_new_val(t_env *node,char *new_val);
-void	ch_env_value(t_env *env, char *var_name);
+int		check_new_line(char *str);
 char 	*get_key(char *content);
 char	*get_value(char *content);
-int	check_new_line(char *str);
+void	ch_env_value(t_env *env, char *var_name, char *new);
+int		check_var_syntax(char *str);
+void	concat_new_val(t_env *node,char *new_val);
+void	append_node(t_env **head_env, char *content);
 
 
 /*Built_ins*/
 
 void	ft_pwd(void);
-void	ft_cd(t_env *env, char **commands);
-char	*get_path(char *name, t_env *env);
 void	ft_env(t_env *env);
 void	ft_echo(char**commands);
+char	*get_path(char *name, t_env *env);
+void	ft_cd(t_env *env, char **commands);
+void	ft_export(t_env *env, char **commands);
 
 #endif
