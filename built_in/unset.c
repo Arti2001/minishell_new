@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 18:19:28 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/29 10:51:33 by amysiv           ###   ########.fr       */
+/*   Created: 2024/08/30 13:58:32 by amysiv            #+#    #+#             */
+/*   Updated: 2024/08/30 14:14:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(t_env *env)
+
+void	ft_unset()
 {
-	while(env != NULL)
-	{
-		if (check_equel(env->content) == 1 )
-			printf("%s=%s\n", env->name, env->value);
-		env = env->next;
-	}
+	
 }

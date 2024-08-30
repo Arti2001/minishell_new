@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/28 15:08:33 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/30 20:11:40 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ int	check_var_syntax(char *str)
 	int		i;
 
 	i = 0;
-	if (ft_isdigit(str[i]) == 1)
+
+	if (!ft_isalpha(str[0]) && !(str[0] == '_'))
 	{
 		printf("bash: export: '%s': not a valid identifier\n", str);
 		return (0);
 	}
 	while(str[i])
 	{
-		if (ft_isalpha(str[i]) == 1 || str[i] == '_')
+		if (ft_isalpha(str[i])|| (str[i] == '_') || ft_isdigit(str[i]))
 			i++;
 		else
 		{
@@ -34,6 +35,7 @@ int	check_var_syntax(char *str)
 	}
 	return (1);
 }
+
 int	check_equel(char *str)
 {
 	while (*str)
@@ -45,64 +47,69 @@ int	check_equel(char *str)
 	return (0);
 }
 
+
 int	is_exist(t_env *env, char *name)
 {
+
+	
 	while (env != NULL)
 	{
 		if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
-			return (1);
+			return 2;
 		env = env->next;
 	}
 	return (0);
 }
 
+
 void	print_export_env(t_env *env)
 {
 		while (env != NULL)
 		{
-			if (check_equel(env->content) == 1)
-				printf("declare -x %s=\"%s\"\n", env->name, env->value);
+			if (env->value == NULL)
+				printf("declare -x %s\n", env->name);
 			else
-				printf("declare -x %s\n", env->content);
+				printf("declare -x %s=\"%s\"\n", env->name, env->value);
 			env = env->next;
 		}
 	return ;
 }
-void	ft_export(t_env *env, char **commands)
+
+int	add_var(t_env *env, char *arg)
 {
-	t_env	*new_node;
 	char	*name;
 	char 	*value;
-	
-	if (env == NULL)
-		return ;
-	name = get_key(*(commands + 1));
-	if (*(commands + 1) == NULL)
-	{
-		print_export_env(env);
-		return ;
-	}
-	if (is_exist(env, name) && check_equel(*(commands + 1)))
-	{
-		value = get_value(*(commands + 1));
-		ch_env_value(env, name, value);
-		return ;
-	}
-	
-	if (check_var_syntax(get_key(name)) == 0)
-	{
+
+		name = get_key(arg);
+		value = get_value(arg);
+		if (is_exist(env, name) == 2)
+			return(ch_env_value(env, name, value), free(name), 0);
+		if (check_var_syntax(get_key(name)) == 0)
+			return (free(name), free(value), 1);
 		free(name);
-		return ;
-	}
-	else if(*(commands + 1) != NULL)
-	{
-		new_node = ft_env_lstnew(*(commands + 1));
-		if (is_exist(env, new_node->name) == 0)
-			ll_addback(&env, new_node);
-	}
-	return ;
+		free(value);
+		return (2);
 }
 
+int ft_export(t_env *env, char **commands)
+{
+	int		i;
+	t_env	*new_node;
+
+	i = 1;
+	if (commands[i] == NULL)
+		return (print_export_env(env), 0);
+	while (commands[i] != NULL)
+	{
+		if (add_var(env, commands[i]) == 2)
+		{
+			new_node = ft_env_lstnew(commands[i]);
+			ll_addback(&env, new_node);
+		}
+		i++;
+	}
+	return (0);
+}
 
 
 

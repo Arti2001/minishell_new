@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:59:09 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/14 15:00:24 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/30 19:14:09 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ char	*ft_strchr(const char *s, char c)
 }
 // int main()
 //{
-//	char str[]=".Hello world";
-// printf("%s", ft_strchr(str, '.' ));
+//	char str[]="Helloworld";
+// printf("%s", ft_strchr(str, '=' ));
 // }

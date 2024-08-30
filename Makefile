@@ -4,7 +4,7 @@ LIBFT_DIR = libft
 LIBFT_NAME = $(addprefix $(LIBFT_DIR)/, libft.a)
 BI_DIR = built_in
 SRC = main.c set_env.c linked_list_tools.c
-BI_SRC = cd.c pwd.c env.c echo.c export.c
+BI_SRC = cd.c pwd.c env.c echo.c export.c unset.c
 
 OBJ = $(SRC:.c=.o)
 BI_OBJ = $(addprefix $(BI_DIR)/, $(BI_SRC:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/28 11:58:43 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/30 18:29:56 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	ft_env(t_env *env);
 void	ft_echo(char**commands);
 char	*get_path(char *name, t_env *env);
 void	ft_cd(t_env *env, char **commands);
-void	ft_export(t_env *env, char **commands);
+int		ft_export(t_env *env, char **commands);
 
 #endif

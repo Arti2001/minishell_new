@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/28 14:58:59 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/08/30 19:20:42 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 char	*get_value(char *content)
 {
 	char *value;
-	if (check_equel(content) == 0)
-		return (NULL);
+	
 	value = ft_strchr(content, '=');
-	value = ft_strdup(++value);
+	if (value  == NULL)
+		return (NULL);
+	else if (*(value + 1) == '\0')
+		return (ft_strdup(""));
+	else	
+		value = ft_strdup(++value);
 	if (value == NULL)
 		return (NULL);
 	return (value);
 }
+
 
 char *get_key(char *content)
 {
@@ -81,45 +86,43 @@ t_env	*set_env(char **env)
 
 void	ch_env_value(t_env *env, char *var_name, char *new)
 {
-	char *path;
-	
-	path = new;
+	if (new == NULL)
+		return;
 	while (env != NULL)
 	{
 		if (ft_strncmp(env->name, var_name, ft_strlen(var_name)) == 0)
 		{
-			free(env->value);
-			env->value = ft_strdup(path);
-			if (env->value == NULL)
-				return ;
-			concat_new_val(env, path);
+			if (env->value != NULL)
+				free(env->value);
+			env->value = ft_strdup(new);
+			return ;
 		}
 		env = env->next;
 	}
 }
 
-void	concat_new_val(t_env *node,char *new_val)
-{
-	size_t		i;
-	size_t		j;
-	size_t		full_len;
-	char		*new;
+//void	concat_new_val(t_env *node,char *new_val)
+//{
+//	size_t		i;
+//	size_t		j;
+//	size_t		full_len;
+//	char		*new;
 	
-	i = 0;
-	j = 0;
-	full_len = ft_strlen(node->name) + ft_strlen(new_val) + 1;
-	new = (char *)malloc(sizeof(char) * full_len + 1);
-	while (i <ft_strlen(node->name) + 1) 
-	{
-		new[i] = node->content[i];
-		i++;
-	}
-	while (new_val[j])
-	{
-		new[i] = new_val[j];
-		i++;
-		j++;
-	}
-	new[i] = '\0';
-	node->content = new;
-}
+//	i = 0;
+//	j = 0;
+//	full_len = ft_strlen(node->name) + ft_strlen(new_val) + 1;
+//	new = (char *)malloc(sizeof(char) * full_len + 1);
+//	while (i <ft_strlen(node->name) + 1) 
+//	{
+//		new[i] = node->content[i];
+//		i++;
+//	}
+//	while (new_val[j])
+//	{
+//		new[i] = new_val[j];
+//		i++;
+//		j++;
+//	}
+//	new[i] = '\0';
+//	node->content = new;
+//}
