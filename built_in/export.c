@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/30 20:11:40 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/02 14:25:45 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	is_exist(t_env *env, char *name)
 	
 	while (env != NULL)
 	{
-		if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
+		if (ft_strncmp(name, env->name, ft_strlen(env->name)) == 0)
 			return 2;
 		env = env->next;
 	}

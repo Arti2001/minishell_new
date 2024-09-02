@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/30 19:20:42 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/02 18:07:25 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,29 +100,3 @@ void	ch_env_value(t_env *env, char *var_name, char *new)
 		env = env->next;
 	}
 }
-
-//void	concat_new_val(t_env *node,char *new_val)
-//{
-//	size_t		i;
-//	size_t		j;
-//	size_t		full_len;
-//	char		*new;
-	
-//	i = 0;
-//	j = 0;
-//	full_len = ft_strlen(node->name) + ft_strlen(new_val) + 1;
-//	new = (char *)malloc(sizeof(char) * full_len + 1);
-//	while (i <ft_strlen(node->name) + 1) 
-//	{
-//		new[i] = node->content[i];
-//		i++;
-//	}
-//	while (new_val[j])
-//	{
-//		new[i] = new_val[j];
-//		i++;
-//		j++;
-//	}
-//	new[i] = '\0';
-//	node->content = new;
-//}

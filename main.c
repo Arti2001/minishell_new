@@ -6,27 +6,27 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/30 18:28:57 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/02 18:11:37 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_built_in(t_env *env, char **commands)
+void	check_built_in(t_env **env, char **commands)
 {
 		
 		if (ft_strncmp(commands[0], "cd", 3) == 0)
-			ft_cd(env, commands);
+			ft_cd(*env, commands);
 		if (ft_strncmp(commands[0], "pwd", 4) == 0)
 			ft_pwd();
 		if (ft_strncmp(commands[0], "env", 4) == 0)
-			ft_env(env);
+			ft_env(*env);
 		if (ft_strncmp(commands[0], "echo", 4) == 0)
 			ft_echo(commands);
 		if (ft_strncmp(commands[0], "export", 6) == 0)
-			ft_export(env, commands);
-		//if (ft_strncmp(commands, "unset", 5) == 0)
-		//	ft_unset(env, commands[0]);
+			ft_export(*env, commands);
+		if (ft_strncmp(commands[0], "unset", 5) == 0)
+			ft_unset(env, commands);
 		//if (ft_strncmp(command, "exit", 5))
 		//	//todo;
 }
@@ -48,7 +48,7 @@ int main(int argc, char *argv[], char *envp[])
 			add_history(input);
 			pars.commands = ft_split(input, ' ');
 			free(input);
-			check_built_in(env, pars.commands);
+			check_built_in(&env, pars.commands);
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/30 18:29:56 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/02 18:12:21 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,24 @@ t_env	*ll_last(t_env *last);
 t_env	*ft_env_lstnew(char *content);
 void	ll_addback(t_env **env_head, t_env *new_node);
 
-int	check_equel(char *str);
+int		check_equel(char *str);
 t_env	*set_env(char **env);
-int		check_new_line(char *str);
 char 	*get_key(char *content);
 char	*get_value(char *content);
-void	ch_env_value(t_env *env, char *var_name, char *new);
+int		check_new_line(char *str);
 int		check_var_syntax(char *str);
+int		is_exist(t_env *env, char *name);
+char	*get_path(char *name, t_env *env);
 void	concat_new_val(t_env *node,char *new_val);
 void	append_node(t_env **head_env, char *content);
-
+void	ch_env_value(t_env *env, char *var_name, char *new);
 
 /*Built_ins*/
 
 void	ft_pwd(void);
 void	ft_env(t_env *env);
 void	ft_echo(char**commands);
-char	*get_path(char *name, t_env *env);
+int		ft_unset(t_env **env, char **arg);
 void	ft_cd(t_env *env, char **commands);
 int		ft_export(t_env *env, char **commands);
 

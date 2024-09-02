@@ -9,7 +9,7 @@ BI_SRC = cd.c pwd.c env.c echo.c export.c unset.c
 OBJ = $(SRC:.c=.o)
 BI_OBJ = $(addprefix $(BI_DIR)/, $(BI_SRC:.c=.o))
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 RFLAGS = -lreadline
 RM = rm -rf
 CC = gcc

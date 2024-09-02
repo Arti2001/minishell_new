@@ -5,6 +5,7 @@
 		"readline.h": "c",
 		"__stddef_max_align_t.h": "c",
 		"dirent.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"typeinfo": "c"
 	}
 }

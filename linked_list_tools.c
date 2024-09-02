@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/29 10:48:14 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/02 17:07:39 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_env	*ft_env_lstnew(char *content)
 	new_node = (t_env *)malloc(sizeof(t_env ));
 	if (new_node == NULL)
 		return (NULL);
-	new_node->content = content;
+	new_node->content = ft_strdup(content);
 	new_node->name = get_key(content);
 	new_node->value= get_value(content);
 	new_node->next = NULL;
