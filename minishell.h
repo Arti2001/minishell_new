@@ -6,12 +6,13 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/02 18:12:21 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/05 08:33:36 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+#include <limits.h>
 #include <stdio.h>
 #include "libft/libft.h"
 #include <unistd.h>
@@ -20,6 +21,13 @@
 #include <sys/types.h>
 #include <readline/history.h>
 #include <dirent.h>
+#include <sys/wait.h>
+
+typedef enum s_builtin
+{
+	NO_BUILTIN = 10,
+	
+} t_builtin;
 
 typedef struct s_env
 {
@@ -38,7 +46,9 @@ typedef struct s_pars
 t_env	*ll_last(t_env *last);
 t_env	*ft_env_lstnew(char *content);
 void	ll_addback(t_env **env_head, t_env *new_node);
+int	ft_lst_size(t_env *lst);
 
+char	**back_to_array(t_env **env);
 int		check_equel(char *str);
 t_env	*set_env(char **env);
 char 	*get_key(char *content);
@@ -53,11 +63,12 @@ void	ch_env_value(t_env *env, char *var_name, char *new);
 
 /*Built_ins*/
 
-void	ft_pwd(void);
-void	ft_env(t_env *env);
-void	ft_echo(char**commands);
+int		ft_pwd(void);
+int		ft_env(t_env *env);
+void	ft_exit(char **arg);
+int		ft_echo(char**commands);
 int		ft_unset(t_env **env, char **arg);
-void	ft_cd(t_env *env, char **commands);
+int		ft_cd(t_env *env, char **commands);
 int		ft_export(t_env *env, char **commands);
 
 #endif

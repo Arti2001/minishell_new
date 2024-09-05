@@ -6,29 +6,57 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/02 18:11:37 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/05 08:33:02 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_built_in(t_env **env, char **commands)
+int	access_cheker(char *arg)
 {
-		
-		if (ft_strncmp(commands[0], "cd", 3) == 0)
-			ft_cd(*env, commands);
-		if (ft_strncmp(commands[0], "pwd", 4) == 0)
-			ft_pwd();
-		if (ft_strncmp(commands[0], "env", 4) == 0)
-			ft_env(*env);
-		if (ft_strncmp(commands[0], "echo", 4) == 0)
-			ft_echo(commands);
-		if (ft_strncmp(commands[0], "export", 6) == 0)
-			ft_export(*env, commands);
-		if (ft_strncmp(commands[0], "unset", 5) == 0)
-			ft_unset(env, commands);
-		//if (ft_strncmp(command, "exit", 5))
-		//	//todo;
+	if (access(arg, X_OK | F_OK) == 0)
+	{
+		return (0);
+	}
+	return (1);
+}
+
+
+void	new_proccess(char **arg, t_env **env)
+{
+	char **env_array;
+	pid_t	pid;
+	
+	env_array = back_to_array(env);
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(arg[0], arg, env_array);
+		exit(1);
+	}
+	waitpid(pid, NULL, 0);
+	return ;
+}
+
+
+
+int	check_built_in(t_env **env, char **arg)
+{
+	if (ft_strncmp("cd", arg[0], ft_strlen(arg[0])) == 0)
+		return (ft_cd(*env, arg));
+	if (ft_strncmp("pwd", arg[0], ft_strlen(arg[0])) == 0)
+		return (ft_pwd());
+	if (ft_strncmp("env", arg[0], ft_strlen(arg[0])) == 0)
+		return (ft_env(*env));
+	if (ft_strncmp("echo", arg[0], ft_strlen(arg[0])) == 0)
+		return (ft_echo(arg));
+	if (ft_strncmp("exit", arg[0], ft_strlen(arg[0])) == 0)
+		ft_exit(arg);
+	if (ft_strncmp("unset", arg[0], ft_strlen(arg[0])) == 0)
+		return (ft_unset(env, arg));
+	if (ft_strncmp("export", arg[0], ft_strlen(arg[0])) == 0)
+		return (ft_export(*env, arg));
+	return (NO_BUILTIN);
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -36,7 +64,7 @@ int main(int argc, char *argv[], char *envp[])
 	char		*input;
 	t_pars		pars;
 	t_env		*env;
-
+	
 	if (argc == 1  && argv[0])
 	{
 		env = set_env(envp);
@@ -53,41 +81,3 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int main(int argc, char *argv[])
-//{
-//	DIR*	dir;
-//	char	*cwd;
-
-//	dir = opendir("./new");//opens the directory passed as name.Returns the pointer to it.
-//	if (dir == NULL)
-//		return 1;
-//	struct di= rent* entity;
-//	entity = readdir(dir);// entry to the directory. Contains all meta data about files in the directory 
-//	while(entity != NULL)
-//	{
-//		if (entity->d_type == 8)
-//			printf("%d\n", entity->d_type);
-//		printf("%s\n", entity->d_name);
-//		printf("          \n");
-//		entity = readdir(dir);
-//	}
-
-//	closedir(dir);
-	
-//	return 0;
-//}

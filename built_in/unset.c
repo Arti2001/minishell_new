@@ -6,11 +6,12 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:58:32 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/02 18:09:29 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/03 16:05:41 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 void	free_node(t_env *node)
 {
@@ -23,6 +24,7 @@ void	free_node(t_env *node)
 	}
 }
 
+//
 int	find_unset(t_env **env, char *str)
 {
 	t_env	*tmp;
@@ -35,7 +37,6 @@ int	find_unset(t_env **env, char *str)
 	{
 		tmp = (*env)->next;
 		free_node(*env);
-	printf("here\n");
 		(*env) = tmp;
 		return (1); 
 	}
@@ -45,7 +46,7 @@ int	find_unset(t_env **env, char *str)
 		if (ft_strncmp(str, current->next->name, ft_strlen(current->next->name)) == 0)
 		{
 			tmp = current->next->next;
-			free(current->next);
+			free_node(current->next);
 			current->next = tmp;
 			return (1);
 		}

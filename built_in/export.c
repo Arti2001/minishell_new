@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/02 14:25:45 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/03 17:05:02 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	check_equel(char *str)
 
 int	is_exist(t_env *env, char *name)
 {
-
-	
 	while (env != NULL)
 	{
 		if (ft_strncmp(name, env->name, ft_strlen(env->name)) == 0)

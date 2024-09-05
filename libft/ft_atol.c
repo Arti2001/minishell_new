@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 18:19:28 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/04 14:02:59 by amysiv           ###   ########.fr       */
+/*   Created: 2023/10/15 12:21:52 by amysiv            #+#    #+#             */
+/*   Updated: 2024/09/04 15:41:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int	ft_env(t_env *env)
+long	ft_atol(const char *nptr)
 {
-	while(env != NULL)
+	long	num;
+	int		sign;
+
+	sign = 1;
+	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	if (*nptr == '-')
+		sign *= -1;
+	if (*nptr == '-' || *nptr == '+')
+		nptr++;
+	num = 0;
+	while (*nptr >= '0' && *nptr <= '9')
 	{
-		if (env->value != NULL)
-			printf("%s=%s\n", env->name, env->value);
-		env = env->next;
+		num = 10 * num + (*nptr - '0');
+		nptr++;
 	}
-	return (0);
+	return (num * sign);
 }

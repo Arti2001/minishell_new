@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:13:06 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/02 17:07:39 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/05 08:32:54 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,19 @@ t_env	*ll_last(t_env *last)
 	while (last->next != NULL)
 		last = last->next;
 	return (last);
-		
-	
+}
+
+int	ft_lst_size(t_env *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
 
 void	ll_addback(t_env **env_head, t_env *new_node)
@@ -31,7 +42,6 @@ void	ll_addback(t_env **env_head, t_env *new_node)
 		return ;
 	last = ll_last(*env_head);
 	last->next = new_node;
-	
 }
 
 t_env	*ft_env_lstnew(char *content)

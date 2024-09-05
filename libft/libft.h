@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:14:18 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/13 15:29:22 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/04 15:37:49 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(char *content);
 int	ft_lstsize(t_list *lst);
+long	ft_atol(const char *nptr);
 
 
 #endif

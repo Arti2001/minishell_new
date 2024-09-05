@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/02 18:07:25 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/04 12:55:41 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,33 @@ void	ch_env_value(t_env *env, char *var_name, char *new)
 		}
 		env = env->next;
 	}
+}
+char *key_val_join(t_env *env)
+{
+	char *equel_char;
+	char *full_str;
+	
+	equel_char= ft_strjoin(env->name, "=");
+	full_str = ft_strjoin(equel_char, env->value);
+	free(equel_char);
+	return (full_str);
+}
+
+
+char **back_to_array(t_env **env)
+{
+	char **ptr_env;
+	int		size;
+	int		count;
+
+	count = 0;
+	size = ft_lst_size(*env);
+	ptr_env= (char **)malloc(sizeof(char *) * size + 1);
+	while ((*env) != NULL)
+	{
+		(*env)->content = key_val_join(*env);
+		ptr_env[count] = (*env)->content;
+		(*env) = (*env)->next;
+	}
+	return (ptr_env);
 }

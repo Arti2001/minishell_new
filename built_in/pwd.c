@@ -6,13 +6,13 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:30:47 by amysiv            #+#    #+#             */
-/*   Updated: 2024/08/21 20:18:50 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/04 15:39:27 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char *path;
 	
@@ -21,4 +21,5 @@ void	ft_pwd(void)
 		ft_putendl_fd(path, 1);
 	else
 		ft_putendl_fd("Error : getcwd()", 2);
+	return (0);
 }
