@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:18:51 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/04 12:55:41 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/06 13:24:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ char *key_val_join(t_env *env)
 	return (full_str);
 }
 
-
+/*This function turns  our environment back into a double array.
+To do : during copying nodes into a double array, we MUST free the node we are copying values from */
 char **back_to_array(t_env **env)
 {
 	char **ptr_env;

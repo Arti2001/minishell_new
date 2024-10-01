@@ -6,37 +6,14 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/05 08:33:02 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/09/06 13:44:05 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	access_cheker(char *arg)
-{
-	if (access(arg, X_OK | F_OK) == 0)
-	{
-		return (0);
-	}
-	return (1);
-}
 
 
-void	new_proccess(char **arg, t_env **env)
-{
-	char **env_array;
-	pid_t	pid;
-	
-	env_array = back_to_array(env);
-	pid = fork();
-	if (pid == 0)
-	{
-		execve(arg[0], arg, env_array);
-		exit(1);
-	}
-	waitpid(pid, NULL, 0);
-	return ;
-}
 
 
 
@@ -63,7 +40,8 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char		*input;
 	t_pars		pars;
-	t_env		*env;
+	t_env		*env;	
+	int			ret;
 	
 	if (argc == 1  && argv[0])
 	{
@@ -76,8 +54,12 @@ int main(int argc, char *argv[], char *envp[])
 			add_history(input);
 			pars.commands = ft_split(input, ' ');
 			free(input);
-			check_built_in(&env, pars.commands);
+			ret = check_built_in(&env, pars.commands);
+			//if (ret  == NO_BUILTIN)
+			//	one_cmd(pars.commands, &env);
+			//else
 		}
+				return (ret);
 	}
 	return (0);
 }
