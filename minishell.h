@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/05 12:15:38 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/03 12:48:28 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 typedef enum s_builtin
 {
-	NO_BUILTIN = 10,
+	NO_BUILTIN = 10
 	
 } t_builtin;
 
@@ -40,6 +40,9 @@ typedef struct s_env
 typedef struct s_pars
 {
 	char	**commands;
+	char 	*infile;
+	char 	*outfile;
+	int		cmd_counter;
 } t_pars;
 
 /*Linked list*/
@@ -63,7 +66,7 @@ t_env	*set_env(char **env);
 char 	*get_key(char *content);
 char	*get_value(char *content);
 int		check_var_syntax(char *str);
-char	**back_to_array(t_env **env);
+char	**back_to_array(t_env *env);
 int		is_exist(t_env *env, char *name);
 char	*get_path(char *name, t_env *env);
 void	ch_env_value(t_env *env, char *var_name, char *new);
@@ -73,6 +76,6 @@ int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void 	one_cmd(char **arg, t_env **env);
+void 	one_cmd(char **arg, t_env *env);
 
 #endif

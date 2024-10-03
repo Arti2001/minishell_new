@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:55:48 by amysiv            #+#    #+#             */
-/*   Updated: 2024/09/03 17:05:02 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/03 13:00:04 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	check_var_syntax(char *str)
 {
 	int		i;
-
+	
 	i = 0;
-
+	printf("%s\n", str);
 	if (!ft_isalpha(str[0]) && !(str[0] == '_'))
 	{
 		printf("bash: export: '%s': not a valid identifier\n", str);
@@ -80,9 +80,10 @@ int	add_var(t_env *env, char *arg)
 
 		name = get_key(arg);
 		value = get_value(arg);
+		printf("name: %s\n value: %s", name, value);
 		if (is_exist(env, name) == 2)
 			return(ch_env_value(env, name, value), free(name), 0);
-		if (check_var_syntax(get_key(name)) == 0)
+		if (check_var_syntax(name) == 0)
 			return (free(name), free(value), 1);
 		free(name);
 		free(value);
