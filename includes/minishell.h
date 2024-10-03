@@ -1,47 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: amysiv <amysiv@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/08/16 09:10:04 by amysiv        #+#    #+#                 */
-/*   Updated: 2024/10/03 13:47:25 by ydidenko      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
+/*   Updated: 2024/10/03 17:28:53 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-# define MINISHELL_H
-# include "../libft/libft.h"
-# include <limits.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <sys/types.h>
-# include <readline/history.h>
-# include <dirent.h>
-# include <sys/wait.h>
+#define MINISHELL_H
+
+#include <limits.h>
+#include <stdio.h>
+#include "../libft/libft.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <sys/types.h>
+#include <readline/history.h>
+#include <dirent.h>
+#include <sys/wait.h>
 
 typedef enum s_builtin
 {
-	NO_BUILTIN = 10,
-
-}	t_builtin;
+	NO_BUILTIN = 10
+	
+} t_builtin;
 
 typedef struct s_env
 {
 	char			*content;
 	char			*name;
 	char			*value;
-	struct s_env	*next;
-}	t_env;
+	struct	s_env	*next;
+}t_env;
 
 typedef struct s_pars
 {
 	char	**commands;
-}	t_pars;
+	char 	*infile;
+	char 	*outfile;
+	int		cmd_counter;
+} t_pars;
 
+typedef struct s_exec
+{
+	char **all_pathes;
+	char *temp_path;
+	char *true_path;
+}t_exec;
 /*Linked list*/
 t_env	*ll_last(t_env *last);
 int		ft_lst_size(t_env *lst);
@@ -60,10 +70,10 @@ int		ft_export(t_env *env, char **commands);
 
 /*ENVIRONMENT*/
 t_env	*set_env(char **env);
-char	*get_key(char *content);
+char 	*get_key(char *content);
 char	*get_value(char *content);
 int		check_var_syntax(char *str);
-char	**back_to_array(t_env **env);
+char	**back_to_array(t_env *env);
 int		is_exist(t_env *env, char *name);
 char	*get_path(char *name, t_env *env);
 void	ch_env_value(t_env *env, char *var_name, char *new);
@@ -73,6 +83,9 @@ int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void	one_cmd(char **arg, t_env **env);
+void 	*one_cmd(char **arg, t_env *env);
+
+/*FREE*/
+void	double_array_free(char **to_free);
 
 #endif

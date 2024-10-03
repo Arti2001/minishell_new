@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: ydidenko <ydidenko@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2024/02/05 14:27:35 by ydidenko      #+#    #+#                  #
-#    Updated: 2024/10/03 13:53:01 by ydidenko      ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
-
 NAME 			=	minishell
 
 LIBFT 			=	libft
@@ -20,24 +8,26 @@ INC_DIR			=	includes
 GREEN=\033[0;32m
 NC=\033[0m
 
+LIBFT_NAME      =	$(addprefix $(LIBFT)/, libft.a)
 SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/*/*.c)
 OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 VPATH			=	$(dir $(SRCS))
 
 CC				=	gcc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g -lreadline -fsanitize=address -I$(INC_DIR)
+CFLAGS			=	-Wall -Wextra -Werror -g 
+RFLAGS = 			-lreadline
 
 all:			$(NAME)
 
 $(NAME):		$(OBJS)
-				@make -C $(LIBFT)
-				@$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME)
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_NAME) -I $(INC_DIR) -o $(NAME) $(RFLAGS)
 				@echo "$(GREEN)Compiled$(NC)"
-
 $(OBJ_DIR)/%.o:	%.c
 				@mkdir -p $(OBJ_DIR)
 				@$(CC) $(CFLAGS) -c $< -o $@
+$(LIBFT_NAME) :
+	@make -C $(LIBFT)
 
 clean:
 				@$(RM) $(OBJS)

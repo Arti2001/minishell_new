@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 18:19:28 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/03 17:17:50 by amysiv           ###   ########.fr       */
+/*   Created: 2024/10/03 15:38:10 by amysiv            #+#    #+#             */
+/*   Updated: 2024/10/03 17:18:16 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_env(t_env *env)
+void	double_array_free(char **to_free)
 {
-	while (env != NULL)
+	int	i;
+
+	i = 0;
+	while (to_free[i])
 	{
-		if (env->value != NULL)
-			printf("%s=%s\n", env->name, env->value);
-		env = env->next;
+		free(to_free[i]);
+		i++;
 	}
-	return (0);
+	free(to_free);
+	to_free = NULL;
 }
