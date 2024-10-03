@@ -1,34 +1,51 @@
-NAME = libft.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: ydidenko <ydidenko@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/10/17 20:08:38 by ydidenko      #+#    #+#                  #
+#    Updated: 2024/09/04 16:15:34 by ydidenko      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
 
-SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
-        ft_isdigit.c ft_isprint.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
-        ft_memmove.c ft_memset.c ft_putchar_fd.c \
-        ft_strchr.c ft_strdup.c ft_itoa.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c\
-        ft_strtrim.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c \
-        ft_strrchr.c ft_tolower.c ft_toupper.c ft_split.c ft_striteri.c ft_strmapi.c ft_substr.c ft_strjoin.c \
-		ft_lstadd_back.c ft_lstadd_front.c ft_lstlast.c ft_lstnew.c ft_lstsize.c ft_atol.c
-		
+NAME 			=	libft.a
 
+OBJ_DIR			=	obj
+SRC_DIR			=	src
 
-OBJS =$(SRC:.c=.o)
-AR =ar rc
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -c -fPIC
-RM = rm -rf
+GREEN=\033[0;32m
+NC=\033[0m
 
-${NAME}: $(OBJS)
-	$(CC) $(CFLAGS) $(SRC)
-		$(AR) $(NAME) $(OBJS)
+SRCS			=	$(wildcard $(SRC_DIR)/*/*.c)
+OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
+VPATH			=	$(dir $(SRCS))
 
-all: ${NAME}
+CC				=	cc
+RM				=	rm -f
+CFLAGS			=	-Wall -Wextra -Werror -I.
 
+all:			$(NAME)
 
-	
+$(NAME):		$(OBJS)
+				@ar rcs $(NAME) $(OBJS)
+				@echo "$(GREEN)Compiled: libft$(NC)"
 
-clean: 
-	$(RM) $(OBJS) a.out 
+$(OBJ_DIR)/%.o:	%.c
+				@mkdir -p $(OBJ_DIR)
+				@$(CC) $(CFLAGS) -c $< -o $@
 
-fclean: clean
-	$(RM) ${NAME}
+clean:
+				@$(RM) $(OBJS)
+				@echo "$(GREEN)Cleaned: libft$(NC)"
 
-re: fclean all
+fclean:			clean
+				@$(RM) $(NAME)
+
+re:				fclean $(NAME)
+
+test:			$(NAME) test.c
+				@$(CC) $(CFLAGS) -o test test.c -L. -lft -g
+
+.PHONY:			clean fclean re all

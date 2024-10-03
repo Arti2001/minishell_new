@@ -1,49 +1,56 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: ydidenko <ydidenko@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2024/02/05 14:27:35 by ydidenko      #+#    #+#                  #
+#    Updated: 2024/10/03 13:53:01 by ydidenko      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
 
-NAME = minishell
-LIBFT_DIR = libft
-LIBFT_NAME = $(addprefix $(LIBFT_DIR)/, libft.a)
-BI_DIR = built_in
-SRC = main.c set_env.c linked_list_tools.c one_command.c
-BI_SRC = cd.c pwd.c env.c echo.c export.c unset.c exit.c
+NAME 			=	minishell
 
-OBJ = $(SRC:.c=.o)
-BI_OBJ = $(addprefix $(BI_DIR)/, $(BI_SRC:.c=.o))
+LIBFT 			=	libft
+SRC_DIR			=	src
+OBJ_DIR			=	obj
+INC_DIR			=	includes
 
-FLAGS = -Wall -Wextra -Werror -g
-RFLAGS = -lreadline
-RM = rm -rf
-CC = gcc
+GREEN=\033[0;32m
+NC=\033[0m
 
-# Targets
-all: $(LIBFT_NAME) $(NAME)
+SRCS			=	$(SRC_DIR)/main.c $(wildcard $(SRC_DIR)/*/*.c)
+OBJS 			=	$(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
+VPATH			=	$(dir $(SRCS))
 
-$(NAME): $(OBJ) $(BI_OBJ) $(LIBFT_NAME) 
-	@echo "Linking $(NAME)"
-	@$(CC) $(FLAGS) $(OBJ) $(BI_OBJ) $(LIBFT_NAME) -o $@ $(RFLAGS)
+CC				=	gcc
+RM				=	rm -f
+CFLAGS			=	-Wall -Wextra -Werror -g -lreadline -fsanitize=address -I$(INC_DIR)
 
-%.o: %.c
-	@echo "Compiling $<"
-	@$(CC) $(FLAGS) -c $< -o $@
+all:			$(NAME)
 
-$(BI_DIR)/%.o: $(BI_DIR)/%.c
-	@echo "Compiling $< from $(BI_DIR)"
-	@$(CC) $(FLAGS) -c $< -o $@
+$(NAME):		$(OBJS)
+				@make -C $(LIBFT)
+				@$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME)
+				@echo "$(GREEN)Compiled$(NC)"
 
-$(LIBFT_NAME):
-	@echo "Building libft"
-	@$(MAKE) -s -C $(LIBFT_DIR)
+$(OBJ_DIR)/%.o:	%.c
+				@mkdir -p $(OBJ_DIR)
+				@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@echo "Cleaning up object files"
-	@$(MAKE) clean -C $(LIBFT_DIR)
-	@$(RM) $(OBJ) $(BI_OBJ)
+				@$(RM) $(OBJS)
+				@make clean -C $(LIBFT)
+				@$(RM) test
+				@echo "$(GREEN)Cleaned$(NC)"
 
-fclean: clean
-	@echo "Removing $(NAME) and libft"
-	@$(RM) $(LIBFT_NAME)
-	@$(RM) $(NAME)
+fclean:			clean
+				@$(RM) $(NAME)
 
-re: fclean all
+re:				fclean $(NAME)
 
-.PHONY: all re clean fclean
-.SILENT: all
+test:			all
+				$(CC) -I$(INC_DIR) -o test test.c $(NAME)
+
+.PHONY:			clean fclean re all test
