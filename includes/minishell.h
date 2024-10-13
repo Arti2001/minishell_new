@@ -6,23 +6,26 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/03 17:28:53 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/13 17:32:31 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+#include <dirent.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include "../libft/libft.h"
 #include <limits.h>
 #include <stdio.h>
-#include "../libft/libft.h"
-#include <unistd.h>
 #include <stdlib.h>
-#include <readline/readline.h>
-#include <sys/types.h>
-#include <readline/history.h>
-#include <dirent.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
 
 typedef enum s_builtin
 {
@@ -41,17 +44,20 @@ typedef struct s_env
 typedef struct s_pars
 {
 	char	**commands;
-	char 	*infile;
-	char 	*outfile;
+	char	*redirections;
 	int		cmd_counter;
 } t_pars;
 
 typedef struct s_exec
 {
-	char **all_pathes;
-	char *temp_path;
-	char *true_path;
+	char	**all_pathes;
+	char	*temp_path;
+	char	*true_path;
+	int		fd_outfile;
+	int		fd_infile;
 }t_exec;
+
+
 /*Linked list*/
 t_env	*ll_last(t_env *last);
 int		ft_lst_size(t_env *lst);
@@ -83,9 +89,10 @@ int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void 	*one_cmd(char **arg, t_env *env);
+void 	*one_cmd(t_pars *pars, t_env *env);
 
 /*FREE*/
 void	double_array_free(char **to_free);
 
 #endif
+
