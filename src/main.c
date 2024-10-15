@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/13 17:32:47 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/15 20:17:53 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,35 @@ int	check_built_in(t_env **env, char **arg)
 
 /*This is a temporary parsing. Below in the main() I read the input from the console, then  I split it with the ft_split function
 and initialize the temporary struct init_temp_struct() which should contain the data for exexution (such as redirections, amount of pipes, heredoc) */
+
+t_redirect	*init_redirect(void)
+{
+	t_redirect			*redirects;
+	int					i;
+	int					count;
+	char				*names[] = {"infile", "outfile", "outfile1"};
+	t_redirect_type		type[] = { IN, OUT, OUT};
+	
+	
+	count = 3;
+	i = 0;
+	redirects = (t_redirect *)malloc(sizeof(t_redirect) * count);
+	if (redirects == NULL)
+		return (NULL);
+	while (count > i)
+	{
+		redirects[i].filename = names[i];
+		redirects[i].type = type[i];
+		i++;
+	}
+	return (redirects);
+}
+
 void	init_pars_struct(char *input, t_pars *pars)
 {
 	pars->commands = ft_split(input, ' ');
-	pars->redirections= NULL;
-	pars->cmd_counter = 1;
+	pars->next_process = NULL;
+	pars->redirections = init_redirect();
 }
 
 
@@ -60,14 +84,14 @@ int main(int argc, char *argv[], char *envp[])
 			add_history(input);
 			init_pars_struct(input, &pars);
 			free(input);
-			if (pars.cmd_counter == 1)
+			ret = check_built_in(&env, pars.commands);
+			if (ret == NO_BUILTIN)
 			{
-				ret = check_built_in(&env, pars.commands);
-				if (ret == NO_BUILTIN)
-					one_cmd(&pars, env);
+				one_cmd(&pars, env);
 			}
+
 		}
 		return (ret);
 	}
-	return (0);
+ 	return (0);
 }

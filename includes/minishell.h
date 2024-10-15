@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/13 17:32:31 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/15 17:46:13 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+typedef enum s_redirect_type
+{
+	HEREDOC,
+	IN,
+	OUT,
+	OUT_APPEND
+}	t_redirect_type;
 
 typedef enum s_builtin
 {
@@ -39,22 +46,28 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	struct	s_env	*next;
-}t_env;
+}	t_env;
+
+typedef struct s_redirect
+{
+	char			*filename;
+	t_redirect_type	type;
+}	t_redirect;
+
 
 typedef struct s_pars
 {
-	char	**commands;
-	char	*redirections;
-	int		cmd_counter;
+	char			**commands;
+	t_redirect		*redirections;
+	struct s_pars	*next_process;
 } t_pars;
 
+/*For extractin the path from the env*/
 typedef struct s_exec
 {
 	char	**all_pathes;
 	char	*temp_path;
 	char	*true_path;
-	int		fd_outfile;
-	int		fd_infile;
 }t_exec;
 
 
