@@ -6,14 +6,14 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/15 20:17:53 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/18 21:11:15 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include ".././includes/minishell.h"
 
 /*check_built_in() checks if it is a built in, if so ,  calls the coresponding built in function*/
-int	check_built_in(t_env **env, char **arg)
+int	is_builtin(t_env **env, char **arg)
 {
 	if (ft_strncmp("cd", arg[0], ft_strlen(arg[0])) == 0)
 		return (ft_cd(*env, arg));
@@ -40,21 +40,21 @@ t_redirect	*init_redirect(void)
 	t_redirect			*redirects;
 	int					i;
 	int					count;
-	char				*names[] = {"infile", "outfile", "outfile1"};
-	t_redirect_type		type[] = { IN, OUT, OUT};
+	char				*names[] = {"infile", "outfile", "outfile2", "outfile3", "infile2", NULL};
+	t_redirect_type		type[] = { IN, OUT, OUT, OUT_APPEND, IN, 0};
 	
 	
-	count = 3;
+	count = 5;
 	i = 0;
-	redirects = (t_redirect *)malloc(sizeof(t_redirect) * count);
+	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
 		return (NULL);
 	while (count > i)
 	{
-		redirects[i].filename = names[i];
-		redirects[i].type = type[i];
+		redirects[i] = (t_redirect){names[i], type[i]};
 		i++;
 	}
+	redirects[i] = (t_redirect){names[i], type[i]};
 	return (redirects);
 }
 
@@ -71,7 +71,6 @@ int main(int argc, char *argv[], char *envp[])
 	char		*input;
 	t_env		*env;
 	t_pars		pars;	
-	int			ret;
 	
 	if (argc == 1  && argv[0])
 	{
@@ -80,18 +79,19 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			input = readline("Minishell>");
 			if (input == NULL)
-				return 1;
+				return (1);
+			if (!input[0])
+				continue;
 			add_history(input);
 			init_pars_struct(input, &pars);
 			free(input);
-			ret = check_built_in(&env, pars.commands);
-			if (ret == NO_BUILTIN)
+			if (pars.next_process == NULL)
 			{
-				one_cmd(&pars, env);
+				if (is_builtin(&env, pars.commands) == NO_BUILTIN)
+					run_command(&pars, env);
 			}
-
 		}
-		return (ret);
+		free_list(env);
 	}
- 	return (0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/15 17:46:13 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/18 19:45:35 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct s_env
 
 typedef struct s_redirect
 {
-	char			*filename;
-	t_redirect_type	type;
+	char				*filename;
+	t_redirect_type		type;
 }	t_redirect;
 
 
@@ -102,10 +102,14 @@ int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void 	*one_cmd(t_pars *pars, t_env *env);
+void 	*run_command(t_pars *pars, t_env *env);
 
 /*FREE*/
+void	free_list(t_env *head);
 void	double_array_free(char **to_free);
+
+/*REDIRECTS*/
+void	redirect_check(t_pars *pars);
 
 #endif
 

@@ -12,46 +12,11 @@
 
 #include "../../includes/minishell.h"
 
-
-
-//void	redirect(t_exec *give)
-//{
-//	if (dup2(give->fd_outfile, 1) == -1)
-//	{
-//		perror("dup2");
-//		exit(EXIT_FAILURE);
-//	}
-//	close(give->fd_outfile);
-//}
-//void	openfile(t_exec *give, t_pars	*pars)
-//{
-//	if (pars->infile)
-//	{
-//		give->fd_infile = open(pars->infile, O_RDONLY);
-//		if (give->fd_infile== -1)
-//		{
-//			perror("can't open the infile");
-//			exit(EXIT_FAILURE);
-//		}
-//	}
-//	else if (pars->outfile)
-//	{
-		
-//		give->fd_outfile = open(pars->outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-//		if (give->fd_outfile == -1)
-//		{
-//			perror("can't open the outfile");
-//			exit(EXIT_FAILURE);
-//		}
-//	}
-//	else
-//		return;
-//}
 /* This function runs small child proccess and executes given command-> */
 void	new_proccess(t_pars *pars, t_env *env, t_exec	*execute)
 {
-	char **env_array;
-	pid_t	pid; 
+	char	**env_array;
+	pid_t	pid;
 	
 	env_array = back_to_array(env);
 	pid = fork();
@@ -62,9 +27,6 @@ void	new_proccess(t_pars *pars, t_env *env, t_exec	*execute)
 	}
 	if (pid == 0)
 	{
-		//if (pars->infile || pars->outfile)
-		// openfile(execute, pars);
-		//redirect(execute);
 		execve(execute->true_path, pars->commands, env_array);
 		ft_putstr_fd(pars->commands[0], 2);
 		ft_putendl_fd(": command not found", 2);
@@ -104,12 +66,18 @@ void matching_pathes(t_exec *holds, char *check_path)
 	}
 }
 
-void	*one_cmd(t_pars *pars, t_env *env)
+void	*run_command(t_pars *pars, t_env *env)
 {
 	t_exec holds;
+	int		std_dups[2];
+
+	std_dups[0] = dup(STDIN_FILENO);
+	std_dups[1] = dup(STDOUT_FILENO);
 
 	if (pars->commands == NULL)
 		return (NULL);
+	if(pars->redirections != NULL)
+		redirect_check(pars);
 	if (access(pars->commands[0], X_OK | F_OK) == 0)
 	{
 		holds.true_path = pars->commands[0];
@@ -122,5 +90,8 @@ void	*one_cmd(t_pars *pars, t_env *env)
 	matching_pathes(&holds, pars->commands[0]);
 	double_array_free(holds.all_pathes);
 	new_proccess(pars, env,  &holds);
+	dup2(std_dups[0], STDIN_FILENO);
+	dup2(std_dups[1], STDOUT_FILENO);
+
 	return (NULL);
 }
