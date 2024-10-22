@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/18 19:45:35 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/22 18:56:30 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ typedef struct s_redirect
 }	t_redirect;
 
 
+
 typedef struct s_pars
 {
+	int					orig_in;
+	int					orig_out;
 	char			**commands;
 	t_redirect		*redirections;
 	struct s_pars	*next_process;

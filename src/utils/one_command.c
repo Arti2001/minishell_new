@@ -69,10 +69,6 @@ void matching_pathes(t_exec *holds, char *check_path)
 void	*run_command(t_pars *pars, t_env *env)
 {
 	t_exec holds;
-	int		std_dups[2];
-
-	std_dups[0] = dup(STDIN_FILENO);
-	std_dups[1] = dup(STDOUT_FILENO);
 
 	if (pars->commands == NULL)
 		return (NULL);
@@ -90,8 +86,9 @@ void	*run_command(t_pars *pars, t_env *env)
 	matching_pathes(&holds, pars->commands[0]);
 	double_array_free(holds.all_pathes);
 	new_proccess(pars, env,  &holds);
-	dup2(std_dups[0], STDIN_FILENO);
-	dup2(std_dups[1], STDOUT_FILENO);
-
+	dup2(pars->orig_in, STDIN_FILENO);
+	close(pars->orig_in);
+	dup2(pars->orig_out, STDOUT_FILENO);
+	close(pars->orig_out);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/18 21:11:15 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/22 19:17:02 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ t_redirect	*init_redirect(void)
 	t_redirect			*redirects;
 	int					i;
 	int					count;
-	char				*names[] = {"infile", "outfile", "outfile2", "outfile3", "infile2", NULL};
-	t_redirect_type		type[] = { IN, OUT, OUT, OUT_APPEND, IN, 0};
+	char				*names[] = { "a", "b", "c", NULL};
+	t_redirect_type		type[] = {HEREDOC, HEREDOC, HEREDOC, 0};
 	
 	
-	count = 5;
+	count = 3;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
@@ -60,6 +60,8 @@ t_redirect	*init_redirect(void)
 
 void	init_pars_struct(char *input, t_pars *pars)
 {
+	pars->orig_in = dup(STDIN_FILENO);
+	pars->orig_out = dup(STDOUT_FILENO);
 	pars->commands = ft_split(input, ' ');
 	pars->next_process = NULL;
 	pars->redirections = init_redirect();
