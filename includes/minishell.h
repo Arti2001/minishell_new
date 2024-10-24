@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 09:10:04 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/22 18:56:30 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/24 16:51:00 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum s_redirect_type
 	HEREDOC,
 	IN,
 	OUT,
-	OUT_APPEND
+	OUT_A
 }	t_redirect_type;
 
 typedef enum s_builtin
@@ -55,14 +55,13 @@ typedef struct s_redirect
 }	t_redirect;
 
 
-
 typedef struct s_pars
 {
 	int					orig_in;
 	int					orig_out;
-	char			**commands;
-	t_redirect		*redirections;
-	struct s_pars	*next_process;
+	char				**cmd;
+	t_redirect			*redir;
+	struct s_pars		*next_process;
 } t_pars;
 
 /*For extractin the path from the env*/
@@ -97,21 +96,26 @@ char	*get_value(char *content);
 int		check_var_syntax(char *str);
 char	**back_to_array(t_env *env);
 int		is_exist(t_env *env, char *name);
-char	*get_path(char *name, t_env *env);
 void	ch_env_value(t_env *env, char *var_name, char *new);
+
+/*PATH*/
+char	**env_split_path(t_env **env);
+char	*get_path(char *name, t_env *env);
+void	matching_pathes(t_exec *holds, char *check_path);
 
 /*STRING UTILITI*/
 int		check_equel(char *str);
 int		check_new_line(char *str);
 
 /*PROCCESSES*/
-void 	*run_command(t_pars *pars, t_env *env);
+void	run_command(t_pars *pars, t_env *env);
 
 /*FREE*/
 void	free_list(t_env *head);
 void	double_array_free(char **to_free);
 
 /*REDIRECTS*/
+void	restore_fd(t_pars *pars);
 void	redirect_check(t_pars *pars);
 
 #endif

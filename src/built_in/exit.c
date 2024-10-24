@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:14:08 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/03 17:17:54 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/24 17:42:31 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,21 @@ void	ft_exit(char **arg)
 
 	if (arg[1] == NULL)
 		exit(0);
-	else if (arg[2] != NULL)
-	{
-		printf("exit: too many arguments\n");
-		exit (1);
-	}
 	else if (int_chek(arg[1]) == 0)
 	{
 		printf("exit\nbash: exit: %s: numeric argument required\n", arg[1]);
 		exit (2);
 	}
+	else if (arg[2] != NULL)
+	{
+		printf("exit: too many arguments\n");
+		exit (1);
+	}
 	val= ft_atol(arg[1]);
 	if (val > INT_MAX || val < INT_MIN)
 	{
-		printf("exit\nbash: exit: %s: numeric argument required\n", arg[1]);
-		exit (2);
+		printf("exit\n");
+		exit (1);
 	}
 	val= val % 256;
 	exit(val);

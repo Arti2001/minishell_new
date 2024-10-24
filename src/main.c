@@ -6,7 +6,7 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:56:16 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/22 19:17:02 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/24 16:51:29 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ t_redirect	*init_redirect(void)
 	t_redirect			*redirects;
 	int					i;
 	int					count;
-	char				*names[] = { "a", "b", "c", NULL};
-	t_redirect_type		type[] = {HEREDOC, HEREDOC, HEREDOC, 0};
+	char				*names[] = { "a", "b", "c", "outfile", NULL};
+	t_redirect_type		type[] = {HEREDOC, HEREDOC, HEREDOC, OUT, 0};
 	
 	
-	count = 3;
+	count = 4;
 	i = 0;
 	redirects = (t_redirect *)malloc(sizeof(t_redirect) * (count + 1));
 	if (redirects == NULL)
@@ -62,9 +62,9 @@ void	init_pars_struct(char *input, t_pars *pars)
 {
 	pars->orig_in = dup(STDIN_FILENO);
 	pars->orig_out = dup(STDOUT_FILENO);
-	pars->commands = ft_split(input, ' ');
+	pars->cmd = ft_split(input, ' ');
 	pars->next_process = NULL;
-	pars->redirections = init_redirect();
+	pars->redir = NULL;
 }
 
 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[], char *envp[])
 			free(input);
 			if (pars.next_process == NULL)
 			{
-				if (is_builtin(&env, pars.commands) == NO_BUILTIN)
+				if (is_builtin(&env, pars.cmd) == NO_BUILTIN)
 					run_command(&pars, env);
 			}
 		}

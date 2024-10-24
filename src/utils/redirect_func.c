@@ -6,12 +6,35 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 17:49:20 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/22 19:32:04 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/24 16:04:18 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void	restore_fd(t_pars *pars)
+{
+	if (dup2(pars->orig_in, STDIN_FILENO) == -1)
+	{
+		perror("Failed to restore stdin");
+		return ;
+	}
+	if (close(pars->orig_in) == -1)
+	{
+		perror("Failed to close stdin");
+		return ;
+	}
+	if (dup2(pars->orig_out, STDOUT_FILENO) == -1)
+	{
+		perror("Failed to restore the stdout");
+		return ;
+	}
+	if (close(pars->orig_out) == -1)
+	{
+		perror("Failed to close stdout");
+		return ;
+	}
+}
 void	redirect_in(t_redirect redirect)
 {
 	int	file_fd;
@@ -29,8 +52,11 @@ void	redirect_in(t_redirect redirect)
 void	redirect_out(t_redirect redirect)
 {
 	int	file_fd;
-
-	file_fd = open(redirect.filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	
+	if (redirect.type == OUT)
+		file_fd = open(redirect.filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	else
+		file_fd = open(redirect.filename, O_CREAT | O_APPEND | O_RDWR, 0644);
 	if (file_fd == -1)
 	{
 		perror("can't open an outfile");
@@ -40,28 +66,13 @@ void	redirect_out(t_redirect redirect)
 	close(file_fd);
 }
 
-
-void	redirect_outappend(t_redirect redirect)
-{
-	int	file_fd;
-
-	file_fd = open(redirect.filename, O_CREAT | O_APPEND | O_RDWR, 0644);
-	if (file_fd == -1)
-	{
-		perror("can't open an outfile");
-		exit(EXIT_FAILURE);
-	}
-	dup2(file_fd, STDOUT_FILENO);
-	close(file_fd);
-}
-
-void	redirect_heredoc(t_redirect redirect)
+void	redirect_heredoc(t_redirect redir)
 {
 	int		fd[2];
 	char	*eof;
 	char	*line;
 	
-	eof = redirect.filename;
+	eof = redir.filename;
 	line = NULL;
 	if (pipe(fd) == -1)
 	{
@@ -71,7 +82,12 @@ void	redirect_heredoc(t_redirect redirect)
 	while (1)
 	{
 		line = readline(">");
-		if (line == NULL || ft_strncmp(line, eof, ft_strlen(eof)) == 0)
+		if (!line)
+		{
+			printf("Minishell: warning: here-document delimited by signal (wanted `%s')\n", eof);
+			break;
+		}
+		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
 		{
 			free(line);
 			break;
@@ -81,7 +97,7 @@ void	redirect_heredoc(t_redirect redirect)
 		free(line);
 	}
 	close(fd[1]);
-	if (ft_strncmp(redirect.filename, "c", 1) == 0)
+	if (ft_strncmp(redir.filename, "c", 1) == 0)
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 		{
 			perror("redirect in heredoc error!");
@@ -95,23 +111,19 @@ void	redirect_check(t_pars *pars)
 	int		i;
 	
 	i = 0;
-	while (pars->redirections[i].filename != NULL)
+	while (pars->redir[i].filename != NULL)
 	{
-		if (pars->redirections[i].type == HEREDOC)
+		if (pars->redir[i].type == HEREDOC)
 		{
-			redirect_heredoc(pars->redirections[i]);
+			redirect_heredoc(pars->redir[i]);
 		}
-		else if(pars->redirections[i].type == OUT)
+		else if(pars->redir[i].type == OUT || pars->redir[i].type == OUT_A)
 		{
-			redirect_out(pars->redirections[i]);
+			redirect_out(pars->redir[i]);
 		}
-		else if (pars->redirections[i].type == IN)
+		else if (pars->redir[i].type == IN)
 		{
-			redirect_in(pars->redirections[i]);
-		}
-		else if (pars->redirections[i].type == OUT_APPEND)
-		{
-			redirect_outappend(pars->redirections[i]);
+			redirect_in(pars->redir[i]);
 		}
 		i++;
 	}

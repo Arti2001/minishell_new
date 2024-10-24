@@ -6,22 +6,11 @@
 /*   By: amysiv <amysiv@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 13:16:30 by amysiv            #+#    #+#             */
-/*   Updated: 2024/10/03 17:22:19 by amysiv           ###   ########.fr       */
+/*   Updated: 2024/10/24 16:54:46 by amysiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*get_path(char *name, t_env *env)
-{
-	while (env != NULL)
-	{
-		if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
 
 void	change_cwd(t_env *env, char *str)
 {
@@ -30,16 +19,16 @@ void	change_cwd(t_env *env, char *str)
 	ch_env_value(env, "PWD", getcwd(NULL, 0));
 }
 
-int	ft_cd(t_env *env, char **arg)
+int		ft_cd(t_env *env, char **arg)
 {
-	DIR	*dir;
-	char *home;
+	DIR		*dir;
+	char	*home;
 
 	if (arg[1] == NULL)
 	{
 		home = get_path("HOME", env);
 		if (home == NULL)
-			return (printf("bash: cd: HOME not set\n"), 1);
+			return (ft_putendl_fd("bash: cd: HOME not set\n", 2), 1);
 		return (change_cwd(env, home), 0);
 	}
 	if (arg[2] != NULL)
